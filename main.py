@@ -29,12 +29,17 @@ def get_tweet_id():
 | |              | || |              | || |              | || |              | || |              | |
 | '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'   BY CECILCODESPYTHON""")
-    getUrl = input("Enter the tweet url: ")
-    tweet_id = re.search(r'/status/(\d+)', getUrl).group(1)
+    try:
+        getUrl = input("Enter the tweet url: ")
+        tweet_id = re.search(r'/status/(\d+)', getUrl).group(1)
+    except AttributeError:
+        print("You entered an incorrect URL. Try Again! ")
     return tweet_id
 
 likers = tweepy.Client.get_liking_users(client,id=get_tweet_id())
 user_ids = [user.id for user in likers.data]
+
+no_blocked = len(user_ids)
 
 
 print("Starting Nuclear Machine")
@@ -44,3 +49,4 @@ for user_id in user_ids:
     time.sleep(5)
 
 print("The tweet has been nuked")
+print(f"{no_blocked} users have been blocked")
